@@ -1,9 +1,12 @@
 {
+  "homepage": "https://yourusername.github.io/repositoryname",
   "name": "excaliflow",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -17,6 +20,7 @@
   "dependencies": {
     "@excalidraw/excalidraw": "^0.17.6",
     "assert": "^2.1.0",
+    "pptxgenjs": "^3.12.0",
     "prettier": "^3.4.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -30,9 +34,11 @@
     "eslint": "^9.15.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
+    "gh-pages": "^6.2.0",
     "globals": "^15.12.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.15.0",
-    "vite": "^6.0.1"
+    "vite": "^6.0.1",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }

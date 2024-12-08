@@ -1,50 +1,58 @@
-# React + TypeScript + Vite
+### Excaliflow Workflow and Mockup Viewer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Excaliflow is an Excalidraw extension which enhances Excalidraw’s View Mode to display workflow and mockup diagrams side by side. Clicking a navigation element in the mockup switches to a new highlighted state in the workflow and changes the mockup.
 
-Currently, two official plugins are available:
+### Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+An Excaliflow diagram consists of:
 
-## Expanding the ESLint configuration
+- **Mockups**: Grouped elements representing states or screens in a workflow.
+- **Workflow**: A separate set of elements representing states and transitions between states.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Links**:
 
-- Configure the top-level `parserOptions` property like this:
+- Workflow states can link to mockups (using Excalidraw links).
+- Mockup elements can link to other mockups (to emulate buttons or navigation).
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+The viewer displays the workflow in one panel and a selected mockup in another. Clicking through linked states or mockups highlights the corresponding state in the workflow.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Edit Mode
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+In Excalidraw's Edit Mode, the following options are available in the main menu:
+
+- **Export to Slide Deck**: Converts the drawing into a sequence of slides, one per mockup. Workflow states and links navigate between slides.
+- **Swap Sides**: Switches the positions of the workflow and mockup panels in View Mode and exported slides.
+
+**Shortcut:**
+
+- Hold **Alt** while drawing an arrow to automatically convert it into an Excalidraw link (and delete the arrow).
+
+---
+
+### View Mode
+
+View Mode splits the diagram into two panels:
+
+- **Workflow Panel**: Displays the workflow.
+- **Mockup Panel**: Displays a selected mockup.
+
+Clicking on a workflow state or a mockup link updates the viewer to show the corresponding mockup or highlights the related workflow state.
+
+---
+
+### Creating Mockups
+
+- **Definition**: A mockup is a group of Excalidraw elements (created with Cmd/Ctrl+G) linked to or containing linked elements.
+- **Links**: Mockups typically include links to other mockups.
+- **Titles**:
+    - The mockup’s title is the top-left text element within the group.
+    - If no top-left text is present, the mockup remains untitled.
+
+---
+
+### Creating Workflows
+
+- **Definition**: The workflow includes all elements not part of a mockup.
+- **Links**: Workflow elements should only link to mockups.
