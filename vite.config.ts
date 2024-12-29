@@ -5,6 +5,7 @@ import svgr from 'vite-plugin-svgr';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), svgr({ include: 'src/*.svg' })],
+  base: '/excaliflow/',
   define: {
     'process.env.IS_PREACT': JSON.stringify('false')
   },
