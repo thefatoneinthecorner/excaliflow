@@ -1,6 +1,6 @@
 ### Excaliflow Workflow and Mockup Viewer
 
-Excaliflow is an Excalidraw extension which enhances Excalidraw’s View Mode to display workflow and mockup diagrams side by side. Clicking a navigation element in the mockup switches to a new highlighted state in the workflow and changes the mockup.
+Excaliflow extends Excalidraw's View Mode to display workflow and mockup diagrams side by side. Clicking a mockup navigation element displays the linked mockup *and* updates the highlighted state in the workflow diagram.
 
 ### Overview
 

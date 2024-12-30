@@ -23,6 +23,9 @@ dependencies:
   react-dom:
     specifier: ^18.3.1
     version: 18.3.1(react@18.3.1)
+  vite-raw-plugin:
+    specifier: ^1.0.2
+    version: 1.0.2
 
 devDependencies:
   '@eslint/js':
@@ -2558,6 +2561,10 @@ packages:
       - supports-color
       - typescript
     dev: true
+
+  /vite-raw-plugin@1.0.2:
+    resolution: {integrity: sha512-gdp/OFVXBiVq1UwPujVb7+4mmgYHTGrzslMbQvxmgzTN4/HC+3j4GNrumsIKSWfA/y3hktII7XqY38muRaGjhw==}
+    dev: false
 
   /vite@6.0.3(@types/node@22.10.1):
     resolution: {integrity: sha512-Cmuo5P0ENTN6HxLSo6IHsjCLn/81Vgrp81oaiFFMRa8gGDj5xEjIcEpf2ZymZtZR8oU0P2JX5WuUp/rlXcHkAw==}

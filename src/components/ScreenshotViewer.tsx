@@ -3,6 +3,7 @@ import { ExcalidrawImperativeAPI, ExcalidrawProps } from '@excalidraw/excalidraw
 import { Excalidraw, viewportCoordsToSceneCoords } from '@excalidraw/excalidraw';
 import { ExcalidrawData } from '../types';
 import { SceneManager } from '../lib/SceneManager.ts';
+import { extractTitle } from '../lib/extractTitle.tsx';
 
 export function ScreenshotViewer({
   excalidrawDrawing,
@@ -39,9 +40,11 @@ export function ScreenshotViewer({
 
       if (!api || !scene || scene.length === 0) return;
 
+      const { title } = extractTitle(scene);
+
       event.preventDefault();
       setDisplayLink(element.link!);
-      api.updateScene({ elements: scene });
+      api.updateScene({ elements: scene.filter((e) => e !== title) });
       api.scrollToContent(scene, { fitToContent: true, animate: false });
     },
     [api, setDisplayLink, sceneManager.scenesByLink]

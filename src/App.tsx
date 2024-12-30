@@ -9,6 +9,8 @@ import { AppState, ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/
 import PptxGenJS from 'pptxgenjs';
 import { sceneScale, slideSceneImageProps } from './lib/slideSceneImageProps.ts';
 import Flow from './flow.svg';
+import { extractTitle } from './lib/extractTitle.tsx';
+import rawMarkdown from '../README.md';
 
 /*
 Things that weren't obvious
@@ -64,23 +66,6 @@ function excalidrawTypeToSlideShape(type: ExcalidrawElement['type']): PptxGenJS.
   }
 }
 
-function extractTitle(scene: Scene) {
-  // if the top left element is a  text element
-  const [minX, minY] = getCommonBounds(scene);
-
-  for (const text of scene.filter(({ type }) => type === 'text')) {
-    const { x, y } = text;
-
-    if (x === minX && y === minY)
-      return {
-        title: text,
-        scene: scene.filter((e) => e !== text)
-      };
-  }
-
-  return { scene };
-}
-
 function ExcaliflowWelcome() {
   return (
     <WelcomeScreen>
@@ -115,12 +100,14 @@ function ExcaliflowWelcome() {
           </div>
         </div>
         <p style={{ maxWidth: 400, textAlign: 'center' }}>
-          Excaliflow is an Excalidraw extension which enhances Excalidraw’s View Mode to display workflow and mockup
-          diagrams side by side. Clicking a navigation element in the mockup switches to a new highlighted state in the
-          workflow and displays the linked mockup.
-          <WelcomeScreen.Center.MenuItemLink href="https://github.com/thefatoneinthecorner/excaliflow?tab=readme-ov-file#overview">
-            more
-          </WelcomeScreen.Center.MenuItemLink>
+          {rawMarkdown.split('###')[1].split('\n')[2]}
+          <a
+            style={{ pointerEvents: 'all' }}
+            href="https://github.com/thefatoneinthecorner/excaliflow?tab=readme-ov-file#overview"
+            target="_blank"
+          >
+            &nbsp;more...
+          </a>
         </p>
         <WelcomeScreen.Center.Menu>
           <WelcomeScreen.Center.MenuItemLink href="https://github.com/excalidraw/excalidraw">
@@ -144,6 +131,7 @@ function App() {
   const [api, setApi] = useState<ExcalidrawImperativeAPI>();
   const isAltKeyDepressed = useAltKeyDepressed();
   const [workflowOnLeft, setWorkflowOnLeft] = useState(true);
+  const [title, setTitle] = useState('');
 
   const setEditMode = () => {
     setMode('edit');
@@ -161,6 +149,16 @@ function App() {
       setSceneManager(undefined);
     }
   }, [api, mode]);
+
+  useEffect(() => {
+    if (!sceneManager) return;
+
+    const { title } = extractTitle(sceneManager.scenesByLink.get(displayLink) || []);
+
+    if (!title || title.type !== 'text') return;
+
+    setTitle(title.text || '');
+  }, [sceneManager, displayLink]);
 
   const maybeConvertArrowToLink = useCallback(
     (appState: Readonly<AppState>) => {
@@ -288,6 +286,7 @@ function App() {
           <ExcaliflowWelcome />
         </Excalidraw>
       </div>
+      {title}
       <div style={{ height: '90vh', width: '100vw', display: 'flex' }}>
         {mode === 'view' && sceneManager && excalidrawDrawing && workflowOnLeft && (
           <WorkflowViewer
