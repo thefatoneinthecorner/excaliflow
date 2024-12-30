@@ -117,10 +117,16 @@ function ExcaliflowWelcome() {
         <p style={{ maxWidth: 400, textAlign: 'center' }}>
           Excaliflow is an Excalidraw extension which enhances Excalidraw’s View Mode to display workflow and mockup
           diagrams side by side. Clicking a navigation element in the mockup switches to a new highlighted state in the
-          workflow and displays the linked mockup. <a href="https://github.com/excalidraw/excalidraw">more</a>
+          workflow and displays the linked mockup.
+          <WelcomeScreen.Center.MenuItemLink href="https://github.com/thefatoneinthecorner/excaliflow?tab=readme-ov-file#overview">
+            more
+          </WelcomeScreen.Center.MenuItemLink>
         </p>
         <WelcomeScreen.Center.Menu>
           <WelcomeScreen.Center.MenuItemLink href="https://github.com/excalidraw/excalidraw">
+            Excalidraw GitHub
+          </WelcomeScreen.Center.MenuItemLink>
+          <WelcomeScreen.Center.MenuItemLink href="https://github.com/thefatoneinthecorner/excaliflow">
             Excaliflow GitHub
           </WelcomeScreen.Center.MenuItemLink>
           <WelcomeScreen.Center.MenuItemHelp />
