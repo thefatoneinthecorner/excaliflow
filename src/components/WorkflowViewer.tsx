@@ -23,6 +23,18 @@ export function WorkflowViewer({
   const [excalidrawApi, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI>();
 
   useEffect(() => {
+    function handleKeyChange(ev: KeyboardEvent) {
+      if (ev.altKey && ev.code === 'KeyR') {
+        revertToEditMode();
+      }
+    }
+    window.addEventListener('keydown', handleKeyChange);
+    return () => {
+      window.removeEventListener('keydown', handleKeyChange);
+    };
+  }, [revertToEditMode]);
+
+  useEffect(() => {
     if (!sceneManager || !excalidrawApi) return;
 
     const elements = sceneManager.workflowScene;

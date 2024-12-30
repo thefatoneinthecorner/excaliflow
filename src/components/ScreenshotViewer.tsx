@@ -19,6 +19,18 @@ export function ScreenshotViewer({
 }) {
   const [api, setApi] = useState<ExcalidrawImperativeAPI>();
 
+  useEffect(() => {
+    function handleKeyChange(ev: KeyboardEvent) {
+      if (ev.altKey && ev.code === 'KeyR') {
+        revertToEditMode();
+      }
+    }
+    window.addEventListener('keydown', handleKeyChange);
+    return () => {
+      window.removeEventListener('keydown', handleKeyChange);
+    };
+  }, [revertToEditMode]);
+
   const linkOpen = useCallback(
     (element: { link: string | null }, event: { preventDefault: () => void }) => {
       const scene = sceneManager.scenesByLink
