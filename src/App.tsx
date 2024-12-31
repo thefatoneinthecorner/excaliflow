@@ -25,6 +25,10 @@ I think my FlowDiagram should have a set of scenes that I can use equality on. A
 against the scenes.
  */
 
+const GitHubIcon = (
+  <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg" alt="GitHub" width="16" height="16" />
+);
+
 function useAltKeyDepressed() {
   const alt = useRef<boolean>();
 
@@ -110,10 +114,13 @@ function ExcaliflowWelcome() {
           </a>
         </p>
         <WelcomeScreen.Center.Menu>
-          <WelcomeScreen.Center.MenuItemLink href="https://github.com/excalidraw/excalidraw">
+          <WelcomeScreen.Center.MenuItemLink href="https://github.com/excalidraw/excalidraw" icon={GitHubIcon}>
             Excalidraw GitHub
           </WelcomeScreen.Center.MenuItemLink>
-          <WelcomeScreen.Center.MenuItemLink href="https://github.com/thefatoneinthecorner/excaliflow">
+          <WelcomeScreen.Center.MenuItemLink
+            href="https://github.com/thefatoneinthecorner/excaliflow"
+            icon={GitHubIcon}
+          >
             Excaliflow GitHub
           </WelcomeScreen.Center.MenuItemLink>
           <WelcomeScreen.Center.MenuItemHelp />
