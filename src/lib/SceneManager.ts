@@ -4,6 +4,13 @@ import assert from 'assert';
 
 export const ELEMENT_LINK_PREFIX = 'https://excalidraw.com/?element=';
 
+/* Removes the link (to suppress the annoying "link" icon) and preserves the stroke (and link) in the element's
+   customData to revert to after highlighting. The link functionality is replaced with useNavigateToLinkedElement().
+*/
+function stripLinkAndPreserveStroke({ link, strokeWidth, strokeColor, ...rest }: ExcalidrawElement) {
+  return { ...rest, link: null, strokeWidth, strokeColor, customData: { link, strokeWidth, strokeColor } };
+}
+
 export class SceneManager {
   public readonly workflowScene: Scene;
 
@@ -34,7 +41,7 @@ export class SceneManager {
     // any element not in a scene is in the workflowScene
     const sceneElements = new Set(Array.from(this.scenesByLink.values()).flat());
 
-    this.workflowScene = elements.filter((e) => !sceneElements.has(e));
+    this.workflowScene = elements.filter((e) => !sceneElements.has(e)).map(stripLinkAndPreserveStroke);
     this.normaliseScenes();
   }
 
@@ -102,7 +109,7 @@ export class SceneManager {
       const normalised = scenesByKey.get(sceneKey(scene));
 
       assert(normalised, 'Expected to find a normalised scene');
-      this.scenesByLink.set(linkId, normalised);
+      this.scenesByLink.set(linkId, normalised.map(stripLinkAndPreserveStroke));
     }
   }
 }
