@@ -86,8 +86,6 @@ export class SceneManager {
         }
       }
 
-      console.log('Odd', e, JSON.stringify(raw, null, 2));
-
       return e;
     });
   }
