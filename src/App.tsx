@@ -59,7 +59,7 @@ function App() {
 
   const setEditMode = () => {
     setMode('edit');
-    api?.updateScene({ appState: { ...api?.getAppState(), viewModeEnabled: false } });
+    api?.updateScene({ appState: { ...api?.getAppState(), viewModeEnabled: false, zenModeEnabled: false } });
   };
 
   useEffect(() => {
@@ -81,9 +81,7 @@ function App() {
 
     const { title } = extractTitle(sceneManager.scenesByLink.get(displayLink) || []);
 
-    if (!title) return;
-
-    setTitle(title.text || '');
+    setTitle(title?.text || '');
   }, [sceneManager, displayLink]);
 
   const maybeConvertArrowToLink = useCallback(
