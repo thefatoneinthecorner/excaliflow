@@ -1,5 +1,5 @@
 import { Excalidraw } from '@excalidraw/excalidraw';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 import { ExcalidrawData } from '../types.ts';
 import { useRevertToEditMode } from '../lib/useRevertToEditMode.ts';
@@ -11,7 +11,7 @@ interface WorkflowViewerProps {
   elements: ExcalidrawElement[];
   excalidrawDrawing: ExcalidrawData;
   displayLink: string;
-  setDisplayLink: React.Dispatch<React.SetStateAction<string>>;
+  setDisplayLink: (lnk: string) => void;
   revertToEditMode: () => void;
 }
 

@@ -8,6 +8,7 @@ import { AppState, ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/
 import { extractTitle } from './lib/extractTitle.tsx';
 import { ExcaliflowWelcome } from './components/ExcaliflowWelcome.tsx';
 import { exportAsSlides } from './lib/exportAsSlides.ts';
+import { useSearchParams } from 'react-router-dom';
 
 /*
 Things that weren't obvious
@@ -47,10 +48,28 @@ function useAltKeyDepressed() {
   }, [alt]);
 }
 
+function useDisplayLink(queryParam = 'link') {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const queryParamValue = searchParams.get(queryParam) || '';
+
+  // Function to update the query parameter
+  const updateQueryParamValue = useCallback(
+    (newValue: string) =>
+      setSearchParams((prev) => {
+        prev.set(queryParam, newValue);
+        return prev;
+      }),
+    [queryParam, setSearchParams]
+  );
+
+  return [queryParamValue, updateQueryParamValue] as const;
+}
+
 function App() {
   const [excalidrawDrawing, setExcalidrawDrawing] = useState<Readonly<ExcalidrawData>>();
   const [sceneManager, setSceneManager] = useState<SceneManager>();
-  const [displayLink, setDisplayLink] = useState('');
+  const [displayLink, setDisplayLink] = useDisplayLink();
   const [mode, setMode] = useState<'view' | 'edit'>('edit');
   const [api, setApi] = useState<ExcalidrawImperativeAPI>();
   const isAltKeyDepressed = useAltKeyDepressed();
@@ -74,7 +93,7 @@ function App() {
     if (mode === 'edit') {
       setSceneManager(undefined);
     }
-  }, [api, mode]);
+  }, [api, mode, setDisplayLink]);
 
   useEffect(() => {
     if (!sceneManager) return;

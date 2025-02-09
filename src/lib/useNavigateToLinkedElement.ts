@@ -5,7 +5,7 @@ import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 /** returns an event handler which locates the clicked element and, if linked, sets the displayLink accordingly */
 export function useNavigateToLinkedElement(
   api: ExcalidrawImperativeAPI | undefined,
-  setDisplayLink: React.Dispatch<React.SetStateAction<string>>
+  setDisplayLink: (lnk: string) => void
 ) {
   const displayLinkedElement: React.PointerEventHandler<HTMLDivElement> = useCallback(
     (e) => {
