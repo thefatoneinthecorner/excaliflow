@@ -8,7 +8,6 @@ import { AppState, ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/
 import { extractTitle } from './lib/extractTitle.tsx';
 import { ExcaliflowWelcome } from './components/ExcaliflowWelcome.tsx';
 import { exportAsSlides } from './lib/exportAsSlides.ts';
-import { useSearchParams } from 'react-router-dom';
 
 /*
 Things that weren't obvious
@@ -48,28 +47,44 @@ function useAltKeyDepressed() {
   }, [alt]);
 }
 
-function useDisplayLink(queryParam = 'link') {
-  const [searchParams, setSearchParams] = useSearchParams();
+// writing this using React router is made difficult because of useSearchParameters returning an unstable updater
+function useQueryState(key: string, defaultValue: string = '') {
+  const getQueryParam = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(key) || defaultValue;
+  }, [key, defaultValue]);
 
-  const queryParamValue = searchParams.get(queryParam) || '';
+  const [state, setState] = useState(getQueryParam);
 
-  // Function to update the query parameter
-  const updateQueryParamValue = useCallback(
-    (newValue: string) =>
-      setSearchParams((prev) => {
-        prev.set(queryParam, newValue);
-        return prev;
-      }),
-    [queryParam, setSearchParams]
+  const updateQueryParam = useCallback(
+    (newValue: string) => {
+      const params = new URLSearchParams(window.location.search);
+      if (newValue) {
+        params.set(key, newValue);
+      } else {
+        params.delete(key);
+      }
+      window.history.pushState(null, '', `?${params.toString()}`);
+      setState(newValue);
+    },
+    [key]
   );
 
-  return [queryParamValue, updateQueryParamValue] as const;
+  useEffect(() => {
+    const handlePopState = () => {
+      setState(getQueryParam());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [getQueryParam]);
+
+  return [state, updateQueryParam] as const;
 }
 
 function App() {
   const [excalidrawDrawing, setExcalidrawDrawing] = useState<Readonly<ExcalidrawData>>();
   const [sceneManager, setSceneManager] = useState<SceneManager>();
-  const [displayLink, setDisplayLink] = useDisplayLink();
+  const [displayLink, setDisplayLink] = useQueryState('link');
   const [mode, setMode] = useState<'view' | 'edit'>('edit');
   const [api, setApi] = useState<ExcalidrawImperativeAPI>();
   const isAltKeyDepressed = useAltKeyDepressed();
