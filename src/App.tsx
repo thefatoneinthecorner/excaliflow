@@ -197,6 +197,7 @@ function App() {
             displayLink={displayLink}
             setDisplayLink={setDisplayLink}
             revertToEditMode={setEditMode}
+            autoScroll={false}
           />
         )}
         {mode === 'view' && sceneManager && excalidrawDrawing && (
@@ -206,6 +207,7 @@ function App() {
             displayLink={displayLink}
             setDisplayLink={setDisplayLink}
             revertToEditMode={setEditMode}
+            autoScroll={true}
           />
         )}
         {mode === 'view' && sceneManager && excalidrawDrawing && !workflowOnLeft && (
@@ -215,6 +217,7 @@ function App() {
             displayLink={displayLink}
             setDisplayLink={setDisplayLink}
             revertToEditMode={setEditMode}
+            autoScroll={false}
           />
         )}
       </div>

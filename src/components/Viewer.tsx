@@ -13,6 +13,7 @@ interface WorkflowViewerProps {
   displayLink: string;
   setDisplayLink: (lnk: string) => void;
   revertToEditMode: () => void;
+  autoScroll: boolean;
 }
 
 export function Viewer({
@@ -20,13 +21,14 @@ export function Viewer({
   excalidrawDrawing,
   displayLink,
   setDisplayLink,
-  revertToEditMode
+  revertToEditMode,
+  autoScroll
 }: WorkflowViewerProps) {
   const [excalidrawApi, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI>();
   const { revertToEditModeOnLeavingViewMode } = useRevertToEditMode(revertToEditMode);
   const { navigate } = useNavigateToLinkedElement(excalidrawApi, setDisplayLink);
 
-  useHighlightedContent({ excalidrawApi, displayLink, elements });
+  useHighlightedContent({ excalidrawApi, displayLink, elements, autoScroll });
 
   return (
     <div className="viewer" style={{ height: '100vh', width: '50vw' }} onPointerDown={navigate}>

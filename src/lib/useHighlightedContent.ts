@@ -7,11 +7,13 @@ import { useEffect } from 'react';
 export function useHighlightedContent({
   excalidrawApi,
   displayLink,
-  elements: scene
+  elements: scene,
+  autoScroll
 }: {
   excalidrawApi?: ExcalidrawImperativeAPI;
   displayLink: string;
   elements: ExcalidrawElement[];
+  autoScroll: boolean;
 }) {
   useEffect(() => {
     if (!excalidrawApi) return () => {};
@@ -27,9 +29,11 @@ export function useHighlightedContent({
 
     const timeout = setTimeout(() => {
       excalidrawApi.updateScene({ elements });
-      excalidrawApi.scrollToContent(elements, { fitToContent: true, animate: false });
+      if (autoScroll) {
+        excalidrawApi.scrollToContent(elements, { fitToContent: true, animate: false });
+      }
     }, 0);
 
     return () => clearTimeout(timeout);
-  }, [excalidrawApi, displayLink, scene]);
+  }, [excalidrawApi, displayLink, scene, autoScroll]);
 }
